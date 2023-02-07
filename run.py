@@ -145,5 +145,5 @@ async def logout(request: Request):
     request.session.pop('user', None)
     return RedirectResponse(url='/')
 
-if __name__ == '__main__':
-    uvicorn.run(app, host='0.0.0.0', port=7000)
+# if __name__ == '__main__':
+#     uvicorn.run(app, host='0.0.0.0', port = 8080)
