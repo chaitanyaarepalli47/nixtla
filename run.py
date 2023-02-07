@@ -94,9 +94,9 @@ def public():
 
 
 from starlette.middleware.sessions import SessionMiddleware
-SECRET_KEY = "rsUE9c7SIfu0GCBh8JIXllW7-gAuu7j35oXzMflX"
-if SECRET_KEY is None:
-    raise 'Missing SECRET_KEY'
+SECRET_KEY = ""
+# if SECRET_KEY is None:
+#     raise 'Missing SECRET_KEY'
 app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
 
 from fastapi import Request
@@ -146,4 +146,4 @@ async def logout(request: Request):
     return RedirectResponse(url='/')
 
 # if __name__ == '__main__':
-#     uvicorn.run(app, host='0.0.0.0', port = 8080)
+#     uvicorn.run(app, host='localhost', port = 7000)
