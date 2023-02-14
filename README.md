@@ -1,6 +1,7 @@
 # nixtla
 
-#To run the image locally
+
+# To run the image locally
 
 To run Locally run the following command in the commnad terminal <br>
 python run.py <br>
