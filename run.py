@@ -71,8 +71,8 @@ logger.configure(
 logging.getLogger("uvicorn.access").handlers = [InterceptHandler()]
 
 # OAuth settings
-GOOGLE_CLIENT_ID = "573717352100-m2kp7heofg75r3dehtblcedv0pmkne7i.apps.googleusercontent.com"
-GOOGLE_CLIENT_SECRET = "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"
+GOOGLE_CLIENT_ID = "9399035607-1tv36t39o639nb1dpk7oggr82nb276ft.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET = "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"
 if GOOGLE_CLIENT_ID is None or GOOGLE_CLIENT_SECRET is None:
     raise BaseException('Missing env variables')
 
@@ -95,8 +95,8 @@ def public():
 
 from starlette.middleware.sessions import SessionMiddleware
 SECRET_KEY = ""
-# if SECRET_KEY is None:
-#     raise 'Missing SECRET_KEY'
+if SECRET_KEY is None:
+    raise 'Missing SECRET_KEY'
 app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
 
 from fastapi import Request
@@ -112,14 +112,20 @@ async def login(request: Request):
 @app.route('/auth')
 async def auth(request: Request):
     # access_token = await oauth.google.authorize_access_token(request)
-    # print("Hellow",request)
+    # # print("Hellow",request)
+    # token = await self.fetch_access_token(**params, **kwargs) 
+  
+    # if 'id_token' in token and 'nonce' in state_data: 
+    #     userinfo = await self.parse_id_token(token, nonce=state_data['nonce']) 
+    #     token['userinfo'] = userinfo 
+    print(request)
     try:
         access_token = await oauth.google.authorize_access_token(request)
     except OAuthError:
-        print("kadfkja",OAuthError)
+        print("Not Authenticated",OAuthError)
         return RedirectResponse(url='/')
     # print("AVK here",access_token)
-    # user_data = await oauth.google.parse_id_token(request, access_token)
+    #user_data = await self.parse_id_token(token, nonce=state_data['nonce'])
     request.session['user'] = dict(access_token)
     # print("heloo",request.session['user'])
     return RedirectResponse(url='/nixtla')
@@ -146,4 +152,4 @@ async def logout(request: Request):
     return RedirectResponse(url='/')
 
 # if __name__ == '__main__':
-#     uvicorn.run(app, host='localhost', port = 7000)
+#     uvicorn.run(app, host='localhost', port=7000)
