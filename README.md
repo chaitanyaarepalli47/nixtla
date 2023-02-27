@@ -39,12 +39,33 @@ The above line of code displays the username that is extracted along with the lo
 After clicking the logout option. The /logout will redirect you to the home page
 
 
-# To run the image locally
+# Monitoring
 
-To run Locally run the following command in the commnad terminal <br>
-python run.py <br>
+The monitoring architecture has three components. 
 
-# TO Dockerize
++ **Promtail**: Promtail agent scraps logs from the docker container and pushes these logs to Grafana Loki. The configuration for the promtail agent can be seen in the github repo.
++ **Loki**: Loki is a log aggregation system, which collects all the logs scrapped by the promtail agent, which will then be used by Grafana to visualize the logs. The configuration for Loki can be seen in the github repo.
++ **Grafana**: We use grafana to visualize these logs by using Loki as the data source for these logs. Its configuration can be seen in the github repo.
 
- to build an image: docker build -t (image name) <br>
- to run an image in container:  docker run -d --name (container name) -p 80:80 (image_name)
+The sample API that we created has the **/login** endpoint which redirects to the OAuth service. The username from the OAuth service is used to log the activity for that particular user. This custom logging can be seen in the **/nixtla** endpoint in the run.py file in the github repo.
+
+# Building the Docker Image
+
+To build the docker image of the sample API, we run the Dockerfile as seen in the github repo. To push the container logs to loki, we need a docker plugin. To install it, do <br><br>
+```docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions```<br><br>
+Then build the docker image using<br><br>
+```docker build -t initial-app .```<br><br>
+
+And then, run the docker image using the command below.<br><br>
+
+```docker run --name demo \                             
+  --log-driver=loki \
+  --log-opt loki-url="http://localhost:3100/loki/api/v1/push" \
+  -p 7000:7000 \
+  -d initial-app-1
+```
+
+Then redirect to the image running in localhost at port 7000. When we try to login to the sample API, the container access logs are pushed to Loki, which is then visualized in Grafana. The Loki and Grafana instances are in the localhost as per the configuration files in the repo.<br>
+To see the logs, Go to the explore tab and choose Loki as the data source.
+
+
