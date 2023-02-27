@@ -68,4 +68,4 @@ And then, run the docker image using the command below.<br><br>
 Then redirect to the image running in localhost at port 7000. When we try to login to the sample API, the container access logs are pushed to Loki, which is then visualized in Grafana. The Loki and Grafana instances are in the localhost as per the configuration files in the repo.<br>
 To see the logs, Go to the explore tab and choose Loki as the data source.
 
-
+![Grafana](Grafana_Dashboard.png)
