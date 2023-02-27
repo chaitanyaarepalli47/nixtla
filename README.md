@@ -58,7 +58,8 @@ Then build the docker image using<br><br>
 
 And then, run the docker image using the command below.<br><br>
 
-```docker run --name demo \                             
+```
+docker run --name demo \                             
   --log-driver=loki \
   --log-opt loki-url="http://localhost:3100/loki/api/v1/push" \
   -p 7000:7000 \
