@@ -67,7 +67,10 @@ docker run --name demo \
   -d initial-app-1
 ```
 
-Then redirect to the image running in localhost at port 7000. When we try to login to the sample API, the container access logs are pushed to Loki, which is then visualized in Grafana. The Loki and Grafana instances are in the localhost as per the configuration files in the repo.<br>
-To see the logs, Go to the explore tab and choose Loki as the data source.
+By using this docker pluging, we would not be needing a Promtail agent to scrape the logs and then push these logs to Loki. All of this scraping and pushing the logs to Loki will be taken care of the plugin.
+
+To access the image, redirect to the image running in localhost at port 7000. When we try to login to the sample API, the container access logs are pushed to Loki, which is then visualized in Grafana. The Loki and Grafana instances are in the localhost as per the configuration files in the repo.
+
+To see the logs, Go to the explore tab and choose Loki as the data source. We can filter these logs to get the access logs of a particular endpoint or behavior of a particular user by writing LogQL queries.
 
 ![Grafana](Grafana_Dashboard.png)
