@@ -41,10 +41,11 @@ After clicking the logout option. The /logout will redirect you to the home page
 
 # Monitoring
 
-The monitoring architecture has three components. 
+The monitoring architecture has the following components. 
 
 + **Promtail**: Promtail agent scraps logs from the docker container and pushes these logs to Grafana Loki. The configuration for the promtail agent can be seen in the github repo.
 + **Loki**: Loki is a log aggregation system, which collects all the logs scrapped by the promtail agent, which will then be used by Grafana to visualize the logs. The configuration for Loki can be seen in the github repo.
++ **Prometheus**: Prometheus collects metrics from targets specified in the configuration file (prometheus.yml). The target key can be updated accordingly as to where we would like to scrape the metrics from or which instance we are trying to monitor.
 + **Grafana**: We use grafana to visualize these logs by using Loki as the data source for these logs. Its configuration can be seen in the github repo.
 
 The sample API that we created has the **/login** endpoint which redirects to the OAuth service. The username from the OAuth service is used to log the activity for that particular user. This custom logging can be seen in the **/nixtla** endpoint in the run.py file in the github repo.
