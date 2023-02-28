@@ -111,23 +111,12 @@ async def login(request: Request):
 
 @app.route('/auth')
 async def auth(request: Request):
-    # access_token = await oauth.google.authorize_access_token(request)
-    # # print("Hellow",request)
-    # token = await self.fetch_access_token(**params, **kwargs) 
-  
-    # if 'id_token' in token and 'nonce' in state_data: 
-    #     userinfo = await self.parse_id_token(token, nonce=state_data['nonce']) 
-    #     token['userinfo'] = userinfo 
-    print(request)
     try:
         access_token = await oauth.google.authorize_access_token(request)
     except OAuthError:
         print("Not Authenticated",OAuthError)
         return RedirectResponse(url='/')
-    # print("AVK here",access_token)
-    #user_data = await self.parse_id_token(token, nonce=state_data['nonce'])
     request.session['user'] = dict(access_token)
-    # print("heloo",request.session['user'])
     return RedirectResponse(url='/nixtla')
 
 from starlette.responses import HTMLResponse
@@ -138,10 +127,8 @@ def public(request: Request):
     if user:
         name = user.get('userinfo').get('name')
         temp = {'username': name, 'endpoint':'nixtla'}
-        # temp1 = {'username': 'Shaily', 'endpoint':'hello'}
         logging.getLogger("fastapi").debug("fatapi info log")
         logger.bind(payload=temp).debug("Username")
-        # logger.bind(payload=temp1).debug("Username")
         return HTMLResponse(f'<p>Hello {name}!</p><a href=/logout>Logout</a>')
     return HTMLResponse('<a href=/login>Login</a>')
 
@@ -150,6 +137,3 @@ def public(request: Request):
 async def logout(request: Request):
     request.session.pop('user', None)
     return RedirectResponse(url='/')
-
-# if __name__ == '__main__':
-#     uvicorn.run(app, host='localhost', port=7000)
