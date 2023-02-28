@@ -1,4 +1,4 @@
-# nixtla
+# Nixtla - Capstone
 
 # What is OAuth
 
